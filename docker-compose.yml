@@ -1,0 +1,55 @@
+services:
+  service-registry:
+    image: service-registry:latest
+    build:
+      context: ./service-registry
+    ports:
+      - "8761:8761"
+    #environment:
+      #- SPRING_APPLICATION_NAME=service-registry
+      #- EUREKA_CLIENT_REGISTER_WITH_EUREKA=false
+      #- EUREKA_CLIENT_FETCH_REGISTRY=false
+    networks:
+      - spring-net
+
+  problem_service:
+    image: problem-service:latest
+    build:
+      context: ./problem_service
+    ports:
+      - "8090:8090"
+    environment:
+      - SPRING_APPLICATION_NAME=problem-service
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/problemdb
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=12345
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_SHOW_SQL=true
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
+      # Eureka client config
+      #- EUREKA_CLIENT_REGISTER_WITH_EUREKA=true
+      #- EUREKA_CLIENT_FETCH_REGISTRY=true
+      #- EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+    depends_on:
+      - service-registry
+    networks:
+      - spring-net
+      
+  api-gateway:
+    image: api-gateway:latest
+    build:
+      context: ./api-gateway
+    ports:
+      - "8765:8765"
+    #environment:
+      #- SPRING_APPLICATION_NAME=api-gateway
+      #- EUREKA_CLIENT_REGISTER_WITH_EUREKA=true
+      #- EUREKA_CLIENT_FETCH_REGISTRY=true
+      #- EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8765/eureka/
+    depends_on:
+      - service-registry
+    networks:
+      - spring-net
+
+networks:
+  spring-net:
