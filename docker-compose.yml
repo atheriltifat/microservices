@@ -4,7 +4,7 @@ services:
     build:
       context: ./service-registry
     ports:
-      - "8765:8765"
+      - "8761:8761"
     #environment:
       #- SPRING_APPLICATION_NAME=service-registry
       #- EUREKA_CLIENT_REGISTER_WITH_EUREKA=false
@@ -40,7 +40,7 @@ services:
     build:
       context: ./api-gateway
     ports:
-      - "8761:8761"
+      - "8765:8765"
     #environment:
       #- SPRING_APPLICATION_NAME=api-gateway
       #- EUREKA_CLIENT_REGISTER_WITH_EUREKA=true
