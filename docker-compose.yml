@@ -35,6 +35,7 @@ services:
     networks:
       - spring-net
       
+<<<<<<< HEAD
   exam_service:
     image: exam-service:latest
     build:
@@ -58,6 +59,8 @@ services:
     networks:
       - spring-net
       
+=======
+>>>>>>> branch 'master' of https://github.com/atheriltifat/microservices.git
   api-gateway:
     image: api-gateway:latest
     build:
