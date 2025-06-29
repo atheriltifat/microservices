@@ -39,7 +39,6 @@ public class ExamService {
 		List<Integer> problemIds = exam.getProblemIds();
 		ResponseEntity<List<ProblemWrapper>> problems = examInterface.getProblemsFromId(problemIds);
 		return problems;
-		
 	}
 	
 
